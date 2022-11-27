@@ -1,21 +1,26 @@
 import 'package:commander/components/command_card.dart';
+import 'package:commander/controllers/command_controller.dart';
 import 'package:commander/models/command.dart';
 import 'package:flutter/material.dart';
 
-class ChecklistTab extends StatefulWidget {
-  const ChecklistTab({super.key});
+class CommandTab extends StatefulWidget {
+  const CommandTab({
+    super.key,
+  });
 
   @override
-  State<ChecklistTab> createState() => _ChecklistTabState();
+  State<CommandTab> createState() => _CommandTabState();
 }
 
-class _ChecklistTabState extends State<ChecklistTab> {
+class _CommandTabState extends State<CommandTab> {
   List commands = [];
+  CommandController commandController = CommandController();
 
   @override
   void initState() {
     super.initState();
     commands = getCommands();
+    commandController.fetchCommands();
   }
 
   @override

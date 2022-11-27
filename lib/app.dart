@@ -1,8 +1,29 @@
+import 'package:commander/pages/auth/login/login_page.dart';
 import 'package:commander/pages/home_page.dart';
+import 'package:commander/utils/styles.dart';
+import 'package:commander/utils/enums.dart';
 import 'package:flutter/material.dart';
 
-class App extends StatelessWidget {
-  const App({super.key});
+class App extends StatefulWidget {
+  const App({
+    super.key,
+    required this.statusAuth,
+  });
+  final Enum statusAuth;
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void didChangeDependencies() {
+    /*SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ));*/
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +31,12 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Commander',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: colorPrimarySwatch,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const HomePage(),
+      home: widget.statusAuth == StatusAuth.authenticated
+          ? const HomePage()
+          : const LoginPage(),
     );
   }
 }
