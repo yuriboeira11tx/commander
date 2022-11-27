@@ -1,4 +1,5 @@
-import 'package:commander/components/command_component.dart';
+import 'package:commander/components/command_tab.dart';
+import 'package:commander/components/products_tab.dart';
 import 'package:commander/pages/auth/login/login_page.dart';
 import 'package:commander/stores/account_store.dart';
 import 'package:commander/utils/styles.dart';
@@ -46,8 +47,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: Column(
-          children: [
-            const TabBar(
+          children: const [
+            TabBar(
               tabs: [
                 Tab(
                   icon: Icon(
@@ -66,17 +67,11 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: TabBarView(
                 children: [
-                  // cheecklist
-                  const CommandTab(),
+                  // commandlist
+                  CommandTab(),
 
-                  // account settings
-                  Container(
-                    child: const Center(
-                      child: Text(
-                        "PRODUTOS",
-                      ),
-                    ),
-                  ),
+                  // productlist
+                  ProductsTab(),
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:commander/models/command.dart';
+import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CommandPage extends StatefulWidget {
@@ -30,14 +31,14 @@ class _CommandPageState extends State<CommandPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 50,
-                  color: Colors.deepPurple,
+                  color: colorPrimarySwatch,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
                         Expanded(
                           child: Text(
-                            "${widget.command.title}",
+                            "${widget.command.client}",
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 20,
@@ -70,40 +71,41 @@ class _CommandPageState extends State<CommandPage> {
                     children: [
                       // cheecklist
                       ListView.builder(
-                          itemCount: StringResource.items.length,
-                          itemBuilder: (_, index) {
-                            return Card(
-                              child: ListTile(
-                                title: Text(
-                                  StringResource.items[index],
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                                subtitle: Text(
-                                  'Preço: R\$${StringResource.price[index]}',
-                                  style: TextStyle(
-                                    color: Colors.blue[450],
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                leading: Image.network(
-                                    "https://www.imagensempng.com.br/wp-content/uploads/2022/01/2442.png"),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.remove),
-                                      onPressed: () {},
-                                    ),
-                                    const Text("0"),
-                                    IconButton(
-                                      icon: const Icon(Icons.add),
-                                      onPressed: () {},
-                                    ),
-                                  ],
+                        itemCount: StringResource.items.length,
+                        itemBuilder: (_, index) {
+                          return Card(
+                            child: ListTile(
+                              title: Text(
+                                StringResource.items[index],
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                              subtitle: Text(
+                                'Preço: R\$${StringResource.price[index]}',
+                                style: TextStyle(
+                                  color: Colors.blue[450],
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            );
-                          }),
+                              leading: Image.network(
+                                  "https://www.imagensempng.com.br/wp-content/uploads/2022/01/2442.png"),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: () {},
+                                  ),
+                                  const Text("0"),
+                                  IconButton(
+                                    icon: const Icon(Icons.add),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
 
                       // account settings
                       Container(

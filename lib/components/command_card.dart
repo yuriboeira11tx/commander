@@ -1,5 +1,6 @@
 import 'package:commander/models/command.dart';
 import 'package:commander/pages/command_page.dart';
+import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CommandCard extends StatefulWidget {
@@ -68,22 +69,19 @@ class _CommandCardState extends State<CommandCard> {
               ),
             ),
             title: Text(
-              widget.command.title!,
+              "#${widget.command.commandIdentifier!} - ${widget.command.client!}",
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Wrap(
-              children: widget.command.request!.map((word) {
+              children: widget.command.orders!.map((word) {
                 return Chip(
                   backgroundColor: Colors.white,
                   label: Text(
-                    word,
-                    style: const TextStyle(
-                      color: Colors.deepPurple,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    "$word",
+                    style: styleTextSnackbar,
                   ),
                 );
               }).toList(),
