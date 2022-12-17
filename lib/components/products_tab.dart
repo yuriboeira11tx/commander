@@ -1,4 +1,3 @@
-import 'package:commander/components/command_card.dart';
 import 'package:commander/components/product_card.dart';
 import 'package:commander/controllers/products_controller.dart';
 import 'package:flutter/material.dart';

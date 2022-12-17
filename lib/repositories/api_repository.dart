@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:commander/models/command.dart';
 import 'package:commander/models/result.dart';
 import 'package:commander/stores/account_store.dart';
 import 'package:commander/utils/check_internet.dart';
@@ -94,6 +95,100 @@ class ApiRepository {
       log("${e.message}");
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getProducts()");
+    }
+
+    return Result();
+  }
+
+  Future<dynamic> getCommandDetail({required Command command}) async {
+    log("Get command detail");
+
+    if (!(await withInternet())) return Result();
+    try {
+      final jwt = JWT({
+        "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
+        "command_id": command.commandId,
+      });
+
+      var response = await dio.post(
+        urlCommandDetail,
+        options: Options(contentType: Headers.jsonContentType),
+        data: {
+          "jwt": jwt.sign(
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          ),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        try {
+          final jwt = JWT.verify(
+            response.data,
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          );
+
+          log('Payload: ${jwt.payload}');
+
+          return jwt.payload;
+        } on JWTExpiredError {
+          log('jwt expired');
+        } on JWTError catch (ex) {
+          log(ex.message);
+        }
+      }
+    } on DioError catch (e) {
+      log("${e.message}");
+      log("${e.response!.data["detail"]}");
+      throw Exception("Problema em getCommandDetail()");
+    }
+
+    return Result();
+  }
+
+  Future<dynamic> addOrder({
+    required Command command,
+    required List<Map<String, dynamic>> orders,
+  }) async {
+    log("Add order");
+
+    if (!(await withInternet())) return Result();
+    try {
+      final jwt = JWT({
+        "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
+        "command_id": command.commandId,
+        "itens": [orders],
+      });
+
+      var response = await dio.post(
+        urlGetProducts,
+        options: Options(contentType: Headers.jsonContentType),
+        data: {
+          "jwt": jwt.sign(
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          ),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        try {
+          final jwt = JWT.verify(
+            response.data,
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          );
+
+          log('Payload: ${jwt.payload}');
+
+          return jwt.payload;
+        } on JWTExpiredError {
+          log('jwt expired');
+        } on JWTError catch (ex) {
+          log(ex.message);
+        }
+      }
+    } on DioError catch (e) {
+      log("${e.message}");
+      log("${e.response!.data["detail"]}");
+      throw Exception("Problema em getCommandDetail()");
     }
 
     return Result();

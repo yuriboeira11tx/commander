@@ -1,3 +1,4 @@
+import 'package:commander/components/command_detail_tab.dart';
 import 'package:commander/models/command.dart';
 import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -54,14 +55,14 @@ class _CommandPageState extends State<CommandPage> {
                   tabs: [
                     Tab(
                       icon: Icon(
-                        Icons.shopping_cart,
-                        color: Colors.deepPurple,
+                        Icons.shopping_cart_checkout,
+                        color: colorTitle,
                       ),
                     ),
                     Tab(
                       icon: Icon(
-                        Icons.shopping_cart_checkout,
-                        color: Colors.deepPurple,
+                        Icons.shopping_cart,
+                        color: colorTitle,
                       ),
                     ),
                   ],
@@ -69,7 +70,10 @@ class _CommandPageState extends State<CommandPage> {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      // cheecklist
+                      // account settings
+                      CommandDetailTab(command: widget.command),
+
+                      // produtos
                       ListView.builder(
                         itemCount: StringResource.items.length,
                         itemBuilder: (_, index) {
@@ -105,15 +109,6 @@ class _CommandPageState extends State<CommandPage> {
                             ),
                           );
                         },
-                      ),
-
-                      // account settings
-                      Container(
-                        child: const Center(
-                          child: Text(
-                            "COMANDA ATUAL",
-                          ),
-                        ),
                       ),
                     ],
                   ),
