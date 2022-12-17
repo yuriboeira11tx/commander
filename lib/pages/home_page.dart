@@ -1,5 +1,5 @@
-import 'package:commander/components/command_tab.dart';
-import 'package:commander/components/products_tab.dart';
+import 'package:commander/components/command/command_tab.dart';
+import 'package:commander/components/product/products_tab.dart';
 import 'package:commander/pages/auth/login/login_page.dart';
 import 'package:commander/stores/account_store.dart';
 import 'package:commander/utils/styles.dart';

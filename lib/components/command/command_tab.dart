@@ -1,4 +1,4 @@
-import 'package:commander/components/command_card.dart';
+import 'package:commander/components/command/command_card.dart';
 import 'package:commander/controllers/command_controller.dart';
 import 'package:flutter/material.dart';
 

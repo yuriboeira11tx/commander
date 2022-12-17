@@ -1,4 +1,5 @@
-import 'package:commander/components/command_detail_tab.dart';
+import 'package:commander/components/command/command_detail_tab.dart';
+import 'package:commander/components/product/products_add_tab.dart';
 import 'package:commander/models/command.dart';
 import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -74,42 +75,7 @@ class _CommandPageState extends State<CommandPage> {
                       CommandDetailTab(command: widget.command),
 
                       // produtos
-                      ListView.builder(
-                        itemCount: StringResource.items.length,
-                        itemBuilder: (_, index) {
-                          return Card(
-                            child: ListTile(
-                              title: Text(
-                                StringResource.items[index],
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                              subtitle: Text(
-                                'Preço: R\$${StringResource.price[index]}',
-                                style: TextStyle(
-                                  color: Colors.blue[450],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              leading: Image.network(
-                                  "https://www.imagensempng.com.br/wp-content/uploads/2022/01/2442.png"),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: () {},
-                                  ),
-                                  const Text("0"),
-                                  IconButton(
-                                    icon: const Icon(Icons.add),
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                      const ProductsAddTab(),
                     ],
                   ),
                 ),
@@ -120,16 +86,4 @@ class _CommandPageState extends State<CommandPage> {
       ),
     );
   }
-}
-
-class StringResource {
-  static const List<String> items = [
-    'Coca-Cola',
-    'Heinken',
-    'Cupcake',
-    'Gingerbread',
-    'JellyBean'
-  ];
-
-  static const List<int> price = [13, 12, 10, 10, 15];
 }
