@@ -18,6 +18,32 @@ class _OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        ListTile(
+          leading: const Icon(Icons.notes),
+          title: Row(
+            children: [
+              const Text(
+                "TOTAL: ",
+                style: TextStyle(color: colorTitle),
+              ),
+              Text(
+                "R\$ ${widget.order.total}",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: colorTitle,
+                ),
+              ),
+              const Text(
+                " reais",
+                style: TextStyle(color: colorTitle),
+              ),
+            ],
+          ),
+          subtitle: Text(
+            "Criada em ${widget.order.createdAt!.day}/${widget.order.createdAt!.month}/${widget.order.createdAt!.year} às ${widget.order.createdAt!.hour}h:${widget.order.createdAt!.minute}m",
+          ),
+        ),
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,

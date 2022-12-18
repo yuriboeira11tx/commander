@@ -12,6 +12,7 @@ class CommandDetailController extends ChangeNotifier {
       id: 0,
       identifier: 0,
       orders: [],
+      total: 0,
     ),
   );
   ValueNotifier<bool> isLoading = ValueNotifier(false);
@@ -21,7 +22,7 @@ class CommandDetailController extends ChangeNotifier {
 
     try {
       var response = await apiRepository.getCommandDetail(command: command);
-      order.value = Order.fromJson(response["data"]);
+      order.value = Order.fromJson(response);
     } catch (e) {
       log("Error fetch command detail");
     }

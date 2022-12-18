@@ -40,11 +40,11 @@ class _CommandPageState extends State<CommandPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "${widget.command.client}",
+                            "#${widget.command.commandIdentifier} - ${widget.command.client}",
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 20,
-                              color: Colors.white,
+                              color: colorTitle,
                             ),
                           ),
                         ),
