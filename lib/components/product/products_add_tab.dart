@@ -1,12 +1,15 @@
 import 'package:commander/components/product/product_add_card.dart';
 import 'package:commander/controllers/products_add_controller.dart';
+import 'package:commander/models/command.dart';
 import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProductsAddTab extends StatefulWidget {
   const ProductsAddTab({
     super.key,
+    required this.command,
   });
+  final Command command;
 
   @override
   State<ProductsAddTab> createState() => _ProductsAddTabState();
@@ -57,26 +60,51 @@ class _ProductsAddTabState extends State<ProductsAddTab> {
             }
           }),
         ),
-        Visibility(
-          visible: productsAddController.quantity.value > 0,
-          child: Positioned(
-            bottom: 0,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Adicionar na Comanda",
-                    style: TextStyle(
-                      color: colorTitle,
+        AnimatedBuilder(
+          animation: Listenable.merge([
+            productsAddController.productsToSend,
+            productsAddController.isAdd,
+          ]),
+          builder: (context, child) {
+            return Visibility(
+              visible: productsAddController.productsToSend.value.isNotEmpty,
+              child: Positioned(
+                bottom: 0,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: productsAddController.isAdd.value
+                          ? null
+                          : () async => await productsAddController
+                              .sendOrders(widget.command),
+                      child: productsAddController.isAdd.value
+                          ? const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.add,
+                                  color: colorTitle,
+                                ),
+                                Text(
+                                  "Adicionar na Comanda",
+                                  style: TextStyle(
+                                    color: colorTitle,
+                                  ),
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ],
     );

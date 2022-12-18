@@ -156,11 +156,11 @@ class ApiRepository {
       final jwt = JWT({
         "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
         "command_id": command.commandId,
-        "itens": [orders],
+        "itens": orders,
       });
 
       var response = await dio.post(
-        urlGetProducts,
+        urlAddOrder,
         options: Options(contentType: Headers.jsonContentType),
         data: {
           "jwt": jwt.sign(

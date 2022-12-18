@@ -75,7 +75,7 @@ class _CommandPageState extends State<CommandPage> {
                       CommandDetailTab(command: widget.command),
 
                       // produtos
-                      const ProductsAddTab(),
+                      ProductsAddTab(command: widget.command),
                     ],
                   ),
                 ),
