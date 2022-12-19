@@ -8,6 +8,7 @@ class CommandController extends ChangeNotifier {
   ValueNotifier<bool> isLoading = ValueNotifier(false);
 
   Future<void> fetchCommands() async {
+    commands.value = [];
     isLoading.value = true;
     var response = await apiRepository.getCommands();
 

@@ -80,9 +80,9 @@ class _ProductsAddTabState extends State<ProductsAddTab> {
                           : () async => await productsAddController
                               .sendOrders(widget.command),
                       child: productsAddController.isAdd.value
-                          ? const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: CircularProgressIndicator(),
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [CircularProgressIndicator()],
                             )
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,

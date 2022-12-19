@@ -22,29 +22,32 @@ class _CommandTabState extends State<CommandTab> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: Listenable.merge([
-        commandController.commands,
-        commandController.isLoading,
-      ]),
-      builder: ((context, child) {
-        if (commandController.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          return ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: commandController.commands.value.length,
-            itemBuilder: (context, index) {
-              return CommandCard(
-                command: commandController.commands.value[index],
-              );
-            },
-          );
-        }
-      }),
+    return RefreshIndicator(
+      onRefresh: () async => await commandController.fetchCommands(),
+      child: AnimatedBuilder(
+        animation: Listenable.merge([
+          commandController.commands,
+          commandController.isLoading,
+        ]),
+        builder: ((context, child) {
+          if (commandController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: commandController.commands.value.length,
+              itemBuilder: (context, index) {
+                return CommandCard(
+                  command: commandController.commands.value[index],
+                );
+              },
+            );
+          }
+        }),
+      ),
     );
   }
 }

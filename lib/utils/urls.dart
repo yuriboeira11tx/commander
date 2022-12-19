@@ -15,4 +15,7 @@ const String urlGetOpenedOrders =
 const String urlAddOrder = "$urlBase/app-communication/api/add_order/";
 const String urlEditOrder = "$urlBase/app-communication/api/edit_order/";
 const String urlGetProducts = "$urlBase/app-communication/api/get_products/";
-const String urlCommandDetail = "$urlBase/app-communication/api/command_detail/";
+const String urlCommandDetail =
+    "$urlBase/app-communication/api/command_detail/";
+const String urlCreateCommand =
+    "$urlBase/app-communication/api/create_command/";
