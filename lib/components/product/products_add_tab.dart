@@ -40,22 +40,28 @@ class _ProductsAddTabState extends State<ProductsAddTab> {
                 child: CircularProgressIndicator(),
               );
             } else {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: productsAddController.products.value.length,
-                itemBuilder: (context, index) {
-                  return ProductAddCard(
-                    product: productsAddController.products.value[index],
-                    updateProductCallback: ((id, quantity, obs) {
-                      productsAddController.updateProductsSelected(
-                        id,
-                        quantity,
-                        obs,
-                      );
-                    }),
-                  );
-                },
+              return RawScrollbar(
+                thumbVisibility: true,
+                thumbColor: colorPrimarySwatch,
+                radius: const Radius.circular(20),
+                thickness: 2,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: productsAddController.products.value.length,
+                  itemBuilder: (context, index) {
+                    return ProductAddCard(
+                      product: productsAddController.products.value[index],
+                      updateProductCallback: ((id, quantity, obs) {
+                        productsAddController.updateProductsSelected(
+                          id,
+                          quantity,
+                          obs,
+                        );
+                      }),
+                    );
+                  },
+                ),
               );
             }
           }),

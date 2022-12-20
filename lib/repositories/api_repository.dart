@@ -47,7 +47,7 @@ class ApiRepository {
         }
       }
     } on DioError catch (e) {
-      log("${e.message}");
+      log(e.message);
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getOrders()");
     }
@@ -91,7 +91,7 @@ class ApiRepository {
         }
       }
     } on DioError catch (e) {
-      log("${e.message}");
+      log(e.message);
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getProducts()");
     }
@@ -99,7 +99,9 @@ class ApiRepository {
     return Result();
   }
 
-  Future<dynamic> getCommandDetail({required Command command}) async {
+  Future<dynamic> getCommandDetail({
+    required Command command,
+  }) async {
     log("Get command detail");
 
     if (!(await withInternet())) return Result();
@@ -136,12 +138,57 @@ class ApiRepository {
         }
       }
     } on DioError catch (e) {
-      log("${e.message}");
-      log("${e.response!.data["detail"]}");
+      log(e.message);
       throw Exception("Problema em getCommandDetail()");
     }
 
     return Result();
+  }
+
+  Future<dynamic> commandExists({
+    required int id,
+  }) async {
+    log("Get command detail");
+
+    if (!(await withInternet())) return 0;
+    try {
+      final jwt = JWT({
+        "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
+        "command_id": id,
+      });
+
+      var response = await dio.post(
+        urlCommandDetail,
+        options: Options(contentType: Headers.jsonContentType),
+        data: {
+          "jwt": jwt.sign(
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          ),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        try {
+          final jwt = JWT.verify(
+            response.data,
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          );
+
+          log('Payload: ${jwt.payload}');
+
+          return jwt.payload;
+        } on JWTExpiredError {
+          log('jwt expired');
+        } on JWTError catch (ex) {
+          log(ex.message);
+        }
+      }
+    } on DioError catch (e) {
+      log(e.message);
+      return e.response!.statusCode!;
+    }
+
+    return 0;
   }
 
   Future<dynamic> addOrder({
@@ -185,7 +232,7 @@ class ApiRepository {
         }
       }
     } on DioError catch (e) {
-      log("${e.message}");
+      log(e.message);
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getCommandDetail()");
     }
@@ -193,13 +240,13 @@ class ApiRepository {
     return Result();
   }
 
-  Future<dynamic> createCommand({
+  Future<int> createCommand({
     required int commandId,
     required String clientId,
   }) async {
     log("Create command");
 
-    if (!(await withInternet())) return Result();
+    if (!(await withInternet())) return 0;
     try {
       final jwt = JWT({
         "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
@@ -226,7 +273,7 @@ class ApiRepository {
 
           log('Payload: ${jwt.payload}');
 
-          return jwt.payload;
+          return 200;
         } on JWTExpiredError {
           log('jwt expired');
         } on JWTError catch (ex) {
@@ -234,11 +281,11 @@ class ApiRepository {
         }
       }
     } on DioError catch (e) {
-      log("${e.message}");
+      log(e.message);
       log("${e.response!.data["detail"]}");
-      throw Exception("Problema em getCommandDetail()");
+      return e.response!.statusCode!;
     }
 
-    return Result();
+    return 0;
   }
 }

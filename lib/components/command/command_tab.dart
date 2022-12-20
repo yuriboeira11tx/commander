@@ -1,5 +1,6 @@
 import 'package:commander/components/command/command_card.dart';
 import 'package:commander/controllers/command_controller.dart';
+import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class CommandTab extends StatefulWidget {
@@ -35,15 +36,21 @@ class _CommandTabState extends State<CommandTab> {
               child: CircularProgressIndicator(),
             );
           } else {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: commandController.commands.value.length,
-              itemBuilder: (context, index) {
-                return CommandCard(
-                  command: commandController.commands.value[index],
-                );
-              },
+            return RawScrollbar(
+              thumbVisibility: true,
+              thumbColor: colorPrimarySwatch,
+              radius: const Radius.circular(20),
+              thickness: 2,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: commandController.commands.value.length,
+                itemBuilder: (context, index) {
+                  return CommandCard(
+                    command: commandController.commands.value[index],
+                  );
+                },
+              ),
             );
           }
         }),
