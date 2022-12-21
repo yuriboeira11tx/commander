@@ -40,7 +40,7 @@ class _CommandTabState extends State<CommandTab> {
               thumbVisibility: true,
               thumbColor: colorPrimarySwatch,
               radius: const Radius.circular(20),
-              thickness: 2,
+              thickness: 3,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,

@@ -8,7 +8,6 @@ import 'package:commander/pages/command_page.dart';
 import 'package:commander/repositories/api_repository.dart';
 import 'package:commander/stores/account_store.dart';
 import 'package:commander/utils/styles.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get_it/get_it.dart';
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> scanQR() async {
     try {
       String result = await FlutterBarcodeScanner.scanBarcode(
-        "#f2b936",
+        "#E4404B60",
         "CANCELAR",
         false,
         ScanMode.QR,
@@ -223,13 +222,13 @@ class _HomePageState extends State<HomePage> {
                 Tab(
                   icon: Icon(
                     Icons.checklist,
-                    color: colorTitle,
+                    color: colorPrimarySwatch,
                   ),
                 ),
                 Tab(
                   icon: Icon(
                     Icons.shopping_cart,
-                    color: colorTitle,
+                    color: colorPrimarySwatch,
                   ),
                 ),
               ],
@@ -249,9 +248,10 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async => await scanQR(),
+          backgroundColor: Colors.black26,
           child: const Icon(
             Icons.qr_code_scanner,
-            color: colorTitle,
+            color: Colors.white,
           ),
         ),
       ),

@@ -57,13 +57,13 @@ class _CommandPageState extends State<CommandPage> {
                     Tab(
                       icon: Icon(
                         Icons.shopping_cart_checkout,
-                        color: colorTitle,
+                        color: colorPrimarySwatch,
                       ),
                     ),
                     Tab(
                       icon: Icon(
                         Icons.shopping_cart,
-                        color: colorTitle,
+                        color: colorPrimarySwatch,
                       ),
                     ),
                   ],

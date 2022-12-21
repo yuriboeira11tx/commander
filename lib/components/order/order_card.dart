@@ -19,29 +19,41 @@ class _OrderCardState extends State<OrderCard> {
     return Column(
       children: [
         ListTile(
-          leading: const Icon(Icons.notes),
+          leading: const Icon(
+            Icons.notes,
+            color: colorPrimarySwatch,
+          ),
           title: Row(
             children: [
               const Text(
                 "TOTAL: ",
-                style: TextStyle(color: colorTitle),
+                style: TextStyle(
+                  color: colorPrimarySwatch,
+                ),
               ),
               Text(
                 "R\$ ${widget.order.total}",
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: colorTitle,
+                  color: colorPrimarySwatch,
                 ),
               ),
               const Text(
                 " reais",
-                style: TextStyle(color: colorTitle),
+                style: TextStyle(
+                  color: colorPrimarySwatch,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
           subtitle: Text(
             "Criada em ${widget.order.createdAt!.day}/${widget.order.createdAt!.month}/${widget.order.createdAt!.year} às ${widget.order.createdAt!.hour}h:${widget.order.createdAt!.minute}m",
+            style: const TextStyle(
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ),
         Expanded(
@@ -49,7 +61,7 @@ class _OrderCardState extends State<OrderCard> {
             thumbVisibility: true,
             thumbColor: colorPrimarySwatch,
             radius: const Radius.circular(20),
-            thickness: 2,
+            thickness: 3,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: widget.order.orders!.length,
@@ -64,12 +76,7 @@ class _OrderCardState extends State<OrderCard> {
                   ),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(
-                        64,
-                        75,
-                        96,
-                        0.9,
-                      ),
+                      color: const Color(0xE4404B60),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListTile(
@@ -85,7 +92,7 @@ class _OrderCardState extends State<OrderCard> {
                           border: Border(
                             right: BorderSide(
                               width: 1.0,
-                              color: Colors.white24,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
@@ -94,7 +101,10 @@ class _OrderCardState extends State<OrderCard> {
                           label: Text(
                             "${widget.order.orders![index]['quantity']}x",
                             style: !widget.order.orders![index]['excluded']
-                                ? styleTextSnackbar
+                                ? const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: colorPrimarySwatch,
+                                  )
                                 : const TextStyle(
                                     color: Colors.grey,
                                     decoration: TextDecoration.lineThrough,
@@ -134,7 +144,10 @@ class _OrderCardState extends State<OrderCard> {
                         label: Text(
                           "R\$ ${widget.order.orders![index]['total']}",
                           style: !widget.order.orders![index]['excluded']
-                              ? styleTextSnackbar
+                              ? const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: colorPrimarySwatch,
+                                )
                               : const TextStyle(
                                   color: Colors.grey,
                                   decoration: TextDecoration.lineThrough,

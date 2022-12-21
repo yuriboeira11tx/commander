@@ -68,7 +68,7 @@ class _ProductCardState extends State<ProductCard> {
             label: Text(
               "R\$${widget.product.price.toString().replaceFirst(".", ",")}",
               style: const TextStyle(
-                color: colorTitle,
+                color: colorPrimarySwatch,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

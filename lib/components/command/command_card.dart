@@ -38,12 +38,7 @@ class _CommandCardState extends State<CommandCard> {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(
-              64,
-              75,
-              96,
-              0.9,
-            ),
+            color: const Color(0xE4404B60),
             borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(
@@ -81,7 +76,10 @@ class _CommandCardState extends State<CommandCard> {
                   backgroundColor: Colors.white,
                   label: Text(
                     "$word",
-                    style: styleTextSnackbar,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: colorPrimarySwatch,
+                    ),
                   ),
                 );
               }).toList(),

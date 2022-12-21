@@ -1,7 +1,6 @@
 // URLS
-// ACCOUNT
-const String urlBase =
-    "http://b991-177-91-129-255.ngrok.io";
+// AUTH
+const String urlBase = "http://b991-177-91-129-255.ngrok.io";
 const String urlLogin = "$urlBase/accounts/api/login/";
 const String urlRegister = "$urlBase/accounts/api/register/";
 const String urlChangePassword = "$urlBase/accounts/api/change_password/";
