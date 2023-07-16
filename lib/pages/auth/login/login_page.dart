@@ -7,13 +7,15 @@ import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({
+    super.key,
+  });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPage> createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final credential = LoginCredential();
   final accountRepository = AccountRepository();
 
@@ -26,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     log(response.message ?? response.toString());
 
     if (response.isSuccess) {
+      if (!mounted) return;
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const HomePage()),
@@ -57,15 +60,14 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   onChanged: credential.setEmail,
+                  textInputAction: TextInputAction.next,
                   validator: (value) => credential.email.validate(),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'E-mail',
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 TextFormField(
                   obscureText: true,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -79,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () async {
                     final validate = credential.validate();
 

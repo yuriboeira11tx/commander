@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const primaryColor = Color(0xE4404B60);
 const colorPrimarySwatch = MaterialColor(
   0xE4404B60,
   <int, Color>{

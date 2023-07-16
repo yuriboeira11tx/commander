@@ -123,14 +123,14 @@ class AccountRepository {
           };
 
           return newTokens;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       throw Exception("Problema em renewTokens()");
     }
 

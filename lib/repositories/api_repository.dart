@@ -40,14 +40,14 @@ class ApiRepository {
           log('Payload: ${jwt.payload}');
 
           return jwt.payload;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getOrders()");
     }
@@ -84,14 +84,14 @@ class ApiRepository {
           log('Payload: ${jwt.payload}');
 
           return jwt.payload;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getProducts()");
     }
@@ -131,14 +131,14 @@ class ApiRepository {
           log('Payload: ${jwt.payload}');
 
           return jwt.payload;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       throw Exception("Problema em getCommandDetail()");
     }
 
@@ -177,14 +177,14 @@ class ApiRepository {
           log('Payload: ${jwt.payload}');
 
           return jwt.payload;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       return e.response!.statusCode!;
     }
 
@@ -225,14 +225,14 @@ class ApiRepository {
           log('Payload: ${jwt.payload}');
 
           return jwt.payload;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       log("${e.response!.data["detail"]}");
       throw Exception("Problema em getCommandDetail()");
     }
@@ -274,14 +274,14 @@ class ApiRepository {
           log('Payload: ${jwt.payload}');
 
           return 200;
-        } on JWTExpiredError {
+        } on JWTExpiredException {
           log('jwt expired');
-        } on JWTError catch (ex) {
+        } on JWTException catch (ex) {
           log(ex.message);
         }
       }
-    } on DioError catch (e) {
-      log(e.message);
+    } on DioException catch (e) {
+      log(e.message!);
       log("${e.response!.data["detail"]}");
       return e.response!.statusCode!;
     }

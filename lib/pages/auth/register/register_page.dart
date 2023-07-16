@@ -6,13 +6,15 @@ import 'package:commander/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({
+    super.key,
+  });
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterPage> createState() => RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class RegisterPageState extends State<RegisterPage> {
   final credential = RegisterCredential();
   final accountRepository = AccountRepository();
 
@@ -24,6 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
           "Cadastro",
           style: styleTextDefault,
         ),
+        backgroundColor: colorPrimarySwatch,
       ),
       body: SafeArea(
         child: SizedBox(
@@ -44,9 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       labelText: 'Primeiro Nome',
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     onChanged: credential.setLastname,
@@ -56,9 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       labelText: 'Último Nome',
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     onChanged: credential.setPhone,
@@ -68,9 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       labelText: 'Telefone',
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     onChanged: credential.setEmail,
@@ -80,9 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       labelText: 'E-mail',
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     onChanged: credential.setPassword,
@@ -92,10 +87,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       labelText: 'Senha',
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
+                  const SizedBox(height: 20),
+                  FilledButton(
                     onPressed: () async {
                       final validate = credential.validate();
 

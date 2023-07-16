@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
-
 class Result {
   String? message;
-  DioError? exception;
+  Exception? exception;
 
   Result({
     this.message,

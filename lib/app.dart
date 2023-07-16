@@ -17,22 +17,18 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   @override
-  void didChangeDependencies() {
-    /*SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ));*/
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Commander',
       theme: ThemeData(
-        primarySwatch: colorPrimarySwatch,
-        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: colorPrimarySwatch),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: colorTitle,
+          ),
+        ),
       ),
       home: widget.statusAuth == StatusAuth.authenticated
           ? const HomePage()
