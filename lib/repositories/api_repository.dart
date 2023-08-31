@@ -26,6 +26,7 @@ class ApiRepository {
         data: {
           "jwt": jwt.sign(
             SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
           ),
         },
       );
@@ -70,6 +71,7 @@ class ApiRepository {
         data: {
           "jwt": jwt.sign(
             SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
           ),
         },
       );
@@ -108,7 +110,7 @@ class ApiRepository {
     try {
       final jwt = JWT({
         "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
-        "command_id": command.commandId,
+        "command_id": command.commandIdentifier,
       });
 
       var response = await dio.post(
@@ -117,6 +119,7 @@ class ApiRepository {
         data: {
           "jwt": jwt.sign(
             SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
           ),
         },
       );
@@ -163,6 +166,7 @@ class ApiRepository {
         data: {
           "jwt": jwt.sign(
             SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
           ),
         },
       );
@@ -201,7 +205,7 @@ class ApiRepository {
     try {
       final jwt = JWT({
         "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
-        "command_id": command.commandId,
+        "command_id": command.commandIdentifier,
         "itens": orders,
       });
 
@@ -211,6 +215,7 @@ class ApiRepository {
         data: {
           "jwt": jwt.sign(
             SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
           ),
         },
       );
@@ -260,6 +265,53 @@ class ApiRepository {
         data: {
           "jwt": jwt.sign(
             SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
+          ),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        try {
+          final jwt = JWT.verify(
+            response.data,
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+          );
+
+          log('Payload: ${jwt.payload}');
+
+          return 200;
+        } on JWTExpiredException {
+          log('jwt expired');
+        } on JWTException catch (ex) {
+          log(ex.message);
+        }
+      }
+    } on DioException catch (e) {
+      log(e.message!);
+      log("${e.response!.data["detail"]}");
+      return e.response!.statusCode!;
+    }
+
+    return 0;
+  }
+
+  Future<int> deliveryOrders(String orders) async {
+    log("Delivery orders: $orders");
+
+    if (!(await withInternet())) return 0;
+    try {
+      final jwt = JWT({
+        "email": GetIt.I<AccountStore>().currentAuth.getEmail(),
+        "orders": orders,
+      });
+
+      var response = await dio.post(
+        urlDeliverySet,
+        options: Options(contentType: Headers.jsonContentType),
+        data: {
+          "jwt": jwt.sign(
+            SecretKey(GetIt.I<AccountStore>().currentAuth.getAuthToken()),
+            noIssueAt: true,
           ),
         },
       );

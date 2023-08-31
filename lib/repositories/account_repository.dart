@@ -34,7 +34,7 @@ class AccountRepository {
       if (response.statusCode == 200) {
         return Result(message: "Conta criada com sucesso");
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       log("[LOG] ${e.message}");
       return Result(
         message: e.response!.data["detail"],
@@ -76,7 +76,7 @@ class AccountRepository {
         await GetIt.I<AccountStore>().login(newAuth);
         return Result(message: "Login efetuado");
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       log("[LOG] ${e.message}");
       return Result(
         message: e.response!.data["detail"],
@@ -101,7 +101,10 @@ class AccountRepository {
         urlRenewTokens,
         options: Options(contentType: Headers.jsonContentType),
         data: {
-          "jwt": jwtSend.sign(SecretKey(currentAuth.getAuthToken())),
+          "jwt": jwtSend.sign(
+            SecretKey(currentAuth.getAuthToken()),
+            noIssueAt: true,
+          ),
         },
       );
 
@@ -116,7 +119,7 @@ class AccountRepository {
 
           Map<String, dynamic> newTokens = <String, dynamic>{
             "auth_token": jwt.payload["auth_token"].toString(),
-            "recoveryToken": jwt.payload["recovery_token"].toString(),
+            "recovery_token": jwt.payload["recovery_token"].toString(),
             "expiration": DateTime.now()
                 .add(Duration(seconds: jwt.payload["expiration"]))
                 .toString(),

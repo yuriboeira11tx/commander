@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:commander/components/command/command_tab.dart';
 import 'package:commander/components/product/products_tab.dart';
 import 'package:commander/models/command.dart';
@@ -13,14 +12,16 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController modalController = TextEditingController();
+  final modalController = TextEditingController();
   final apiRepository = ApiRepository();
 
   void toLogin() {
@@ -44,9 +45,17 @@ class _HomePageState extends State<HomePage> {
 
       log(result);
 
-      if (result == "-1") return;
-      var response = await apiRepository.commandExists(id: int.parse(result));
+      if (result == "-1") result = "order:30";
+      if (result.contains("order")) {
+        var deliveryResponse =
+            await apiRepository.deliveryOrders(result.split(":")[1]);
+        return;
+      }
+
+      var response = await apiRepository.commandExists(
+          id: int.parse(result.split(":")[1]));
       if (response.runtimeType != int) {
+        if (!mounted) return;
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -56,12 +65,14 @@ class _HomePageState extends State<HomePage> {
                 client: response["data"]["client_identification"],
                 commandIdentifier: response["data"]["identifier"],
                 orders: [],
+                delivered: [],
               ),
             ),
           ),
         );
       } else {
-        await showModalBottomSheet(
+        if (!mounted) return;
+        showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           shape: const RoundedRectangleBorder(
@@ -103,10 +114,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: modalController,
+                          decoration: const InputDecoration(
                             hintText: "Nome do cliente",
                           ),
                         ),
@@ -126,7 +138,7 @@ class _HomePageState extends State<HomePage> {
 
                                     int response =
                                         await apiRepository.createCommand(
-                                      commandId: 10,
+                                      commandId: int.parse(result),
                                       clientId: modalController.text,
                                     );
 
@@ -215,8 +227,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: Column(
-          children: const [
+        body: const Column(
+          children: [
             TabBar(
               tabs: [
                 Tab(
@@ -248,7 +260,6 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async => await scanQR(),
-          backgroundColor: Colors.black26,
           child: const Icon(
             Icons.qr_code_scanner,
             color: Colors.white,

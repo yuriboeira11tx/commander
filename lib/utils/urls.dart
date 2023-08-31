@@ -1,6 +1,7 @@
 // URLS
 // AUTH
-const String urlBase = "http://b991-177-91-129-255.ngrok.io";
+const String urlBase =
+    "http://5012-2804-ef4-52af-3e61-5d59-89bc-5daf-1558.ngrok-free.app";
 const String urlLogin = "$urlBase/accounts/api/login/";
 const String urlRegister = "$urlBase/accounts/api/register/";
 const String urlChangePassword = "$urlBase/accounts/api/change_password/";
@@ -18,3 +19,5 @@ const String urlCommandDetail =
     "$urlBase/app-communication/api/command_detail/";
 const String urlCreateCommand =
     "$urlBase/app-communication/api/create_command/";
+const String urlDeliverySet =
+    "$urlBase/app-communication/api/delivery_order_set/";

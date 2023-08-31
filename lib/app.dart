@@ -23,8 +23,9 @@ class _AppState extends State<App> {
       title: 'Commander',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: colorPrimarySwatch),
-        useMaterial3: true,
+        useMaterial3: false,
         appBarTheme: const AppBarTheme(
+          elevation: 0,
           iconTheme: IconThemeData(
             color: colorTitle,
           ),

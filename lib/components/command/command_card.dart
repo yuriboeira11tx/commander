@@ -70,19 +70,52 @@ class _CommandCardState extends State<CommandCard> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            subtitle: Wrap(
-              children: widget.command.orders!.map((word) {
-                return Chip(
-                  backgroundColor: Colors.white,
-                  label: Text(
-                    "$word",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: colorPrimarySwatch,
-                    ),
-                  ),
-                );
-              }).toList(),
+            subtitle: Column(
+              children: [
+                Wrap(
+                  children: widget.command.orders!.map((word) {
+                    return Chip(
+                      backgroundColor: Colors.white,
+                      label: Row(
+                        children: [
+                          const Icon(
+                            Icons.timer,
+                          ),
+                          Text(
+                            "$word",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colorPrimarySwatch,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+                Wrap(
+                  children: widget.command.delivered!.map((word) {
+                    return Chip(
+                      backgroundColor: Colors.white,
+                      label: Row(
+                        children: [
+                          const Icon(
+                            Icons.check_box,
+                            color: Colors.green,
+                          ),
+                          Text(
+                            "$word",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colorPrimarySwatch,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
             trailing: const Icon(
               Icons.keyboard_arrow_right,
