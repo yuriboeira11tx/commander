@@ -53,74 +53,75 @@ class _ProductAddCardState extends State<ProductAddCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: const EdgeInsets.symmetric(
-        horizontal: 4,
-        vertical: 6,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromRGBO(
-            64,
-            75,
-            96,
-            0.9,
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20.0,
-            vertical: 10.0,
-          ),
-          leading: Container(
-            padding: const EdgeInsets.only(
-              right: 12.0,
+    return widget.product.available!
+        ? Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
-            decoration: const BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  width: 1.0,
-                  color: Colors.white24,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 4,
+              vertical: 6,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(
+                  64,
+                  75,
+                  96,
+                  0.9,
                 ),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ),
-            child: const Icon(
-              Icons.wine_bar,
-              color: Colors.white,
-            ),
-          ),
-          title: Text(
-            "${widget.product.name}",
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: obsController,
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 10.0,
+                ),
+                leading: Container(
+                  padding: const EdgeInsets.only(
+                    right: 12.0,
+                  ),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      right: BorderSide(
+                        width: 1.0,
+                        color: Colors.white24,
+                      ),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.wine_bar,
+                    color: Colors.white,
+                  ),
+                ),
+                title: Text(
+                  "${widget.product.name}",
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 12,
-                  ),
-                  decoration: const InputDecoration(
-                    hintText: "Observação",
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
-                    border: InputBorder.none,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              /*Chip(
+                subtitle: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: obsController,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: "Observação",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    /*Chip(
                 backgroundColor: Colors.white,
                 label: Text(
                   "R\$ ${widget.product.price}",
@@ -131,45 +132,46 @@ class _ProductAddCardState extends State<ProductAddCard> {
                   ),
                 ),
               ),*/
-            ],
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                splashRadius: 30,
-                onPressed: quantity > 0 ? decrementQuantity : null,
-                icon: Icon(
-                  Icons.remove,
-                  color: quantity > 0 ? Colors.white : Colors.grey,
+                  ],
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      splashRadius: 30,
+                      onPressed: quantity > 0 ? decrementQuantity : null,
+                      icon: Icon(
+                        Icons.remove,
+                        color: quantity > 0 ? Colors.white : Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "$quantity",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    IconButton(
+                      splashRadius: 30,
+                      onPressed: incrementQuantity,
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                "$quantity",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              IconButton(
-                splashRadius: 30,
-                onPressed: incrementQuantity,
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }

@@ -26,12 +26,7 @@ class _ProductCardState extends State<ProductCard> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(
-            64,
-            75,
-            96,
-            0.9,
-          ),
+          color: const Color.fromRGBO(64, 75, 96, 0.9),
           borderRadius: BorderRadius.circular(10),
         ),
         child: ListTile(
@@ -62,6 +57,17 @@ class _ProductCardState extends State<ProductCard> {
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          subtitle: Row(
+            children: [
+              Text(
+                widget.product.available! ? 'Disponível' : 'Indisponível',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: widget.product.available! ? Colors.green : Colors.red,
+                ),
+              ),
+            ],
           ),
           trailing: Chip(
             backgroundColor: Colors.white,

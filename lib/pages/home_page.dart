@@ -44,154 +44,159 @@ class _HomePageState extends State<HomePage> {
       );
 
       log(result);
-
-      if (result == "-1") result = "order:30";
+      if (result == "-1") return;
       if (result.contains("order")) {
         var deliveryResponse =
             await apiRepository.deliveryOrders(result.split(":")[1]);
+        log("$deliveryResponse");
         return;
       }
 
-      var response = await apiRepository.commandExists(
-          id: int.parse(result.split(":")[1]));
-      if (response.runtimeType != int) {
-        if (!mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => CommandPage(
-              command: Command(
-                commandId: response["data"]["id"],
-                client: response["data"]["client_identification"],
-                commandIdentifier: response["data"]["identifier"],
-                orders: [],
-                delivered: [],
+      if (result.contains("id")) {
+        var response = await apiRepository.commandExists(
+          id: int.parse(result.split(":")[1]),
+        );
+        if (response.runtimeType != int) {
+          if (!mounted) return;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CommandPage(
+                command: Command(
+                  commandId: response["data"]["id"],
+                  client: response["data"]["client_identification"],
+                  commandIdentifier: response["data"]["identifier"],
+                  orders: [],
+                  delivered: [],
+                ),
               ),
             ),
-          ),
-        );
-      } else {
-        if (!mounted) return;
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30),
+          );
+        } else {
+          if (!mounted) return;
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30),
+              ),
             ),
-          ),
-          builder: (context) {
-            bool isLoading = false;
-            String errorMessage = "";
+            builder: (context) {
+              bool isLoading = false;
+              String errorMessage = "";
 
-            return StatefulBuilder(
-              builder: (context, setState) {
-                return Padding(
-                  padding: MediaQuery.of(context).viewInsets,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 20, left: 8),
-                        child: Text(
-                          "Nova Comanda",
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      Visibility(
-                        visible: errorMessage.isNotEmpty,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20, left: 8),
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  return Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20, left: 10),
                           child: Text(
-                            errorMessage,
-                            style: const TextStyle(
-                              color: Colors.red,
+                            "Nova Comanda",
+                            style: TextStyle(
+                              fontSize: 20,
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: modalController,
-                          decoration: const InputDecoration(
-                            hintText: "Nome do cliente",
+                        Visibility(
+                          visible: errorMessage.isNotEmpty,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20, left: 10),
+                            child: Text(
+                              errorMessage,
+                              style: const TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                            onPressed: !isLoading
-                                ? () async {
-                                    if (!mounted) return;
-                                    setState(() {
-                                      isLoading = true;
-                                      errorMessage = "";
-                                    });
-
-                                    int response =
-                                        await apiRepository.createCommand(
-                                      commandId: int.parse(result),
-                                      clientId: modalController.text,
-                                    );
-
-                                    if (response == 200) {
-                                      Navigator.pop(context);
-
-                                      await showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text('Comanda Criada'),
-                                            content: const Text(
-                                                'A comanda foi criada com sucesso!'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: const Text('OK'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                      return;
-                                    } else {
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: TextField(
+                            controller: modalController,
+                            decoration: const InputDecoration(
+                              hintText: "Nome do cliente",
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                              onPressed: !isLoading
+                                  ? () async {
                                       if (!mounted) return;
                                       setState(() {
-                                        errorMessage =
-                                            "Não foi possível criar comanda no momento";
+                                        isLoading = true;
+                                        errorMessage = "";
+                                      });
+
+                                      int response =
+                                          await apiRepository.createCommand(
+                                        commandId: int.parse(result),
+                                        clientId: modalController.text,
+                                      );
+
+                                      if (response == 200) {
+                                        if (!mounted) return;
+                                        Navigator.pop(context);
+                                        await showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Comanda Criada'),
+                                              content: const Text(
+                                                  'A comanda foi criada com sucesso!'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+
+                                        return;
+                                      } else {
+                                        if (!mounted) return;
+                                        setState(() {
+                                          errorMessage =
+                                              "Não foi possível criar comanda no momento";
+                                        });
+                                      }
+
+                                      if (!mounted) return;
+                                      setState(() {
+                                        isLoading = false;
                                       });
                                     }
-
-                                    if (!mounted) return;
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  }
-                                : null,
-                            child: isLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : const Text("Continuar"),
+                                  : null,
+                              child: isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : const Text("Continuar"),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        );
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        }
       }
     } catch (e) {
       log("$e");
@@ -212,7 +217,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           elevation: 0,
           title: const Text(
-            "Comandas Ativas",
+            "South Pub",
             style: styleTextDefault,
           ),
           actions: [

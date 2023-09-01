@@ -13,7 +13,7 @@ class ProductsTab extends StatefulWidget {
 
 class _ProductsTabState extends State<ProductsTab> {
   List products = [];
-  ProductsController productsController = ProductsController();
+  final productsController = ProductsController();
 
   @override
   void initState() {
