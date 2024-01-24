@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       if (result == "-1") return;
       if (result.contains("order")) {
         var deliveryResponse =
-            await apiRepository.deliveryOrders(result.split(":")[1]);
+            await apiRepository.deliveryOrders(result.split(":")[1]).then((value) => null);
         log("$deliveryResponse");
         return;
       }
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
 
                                       int response =
                                           await apiRepository.createCommand(
-                                        commandId: int.parse(result),
+                                        commandId: int.parse(result.split(":")[1]),
                                         clientId: modalController.text,
                                       );
 

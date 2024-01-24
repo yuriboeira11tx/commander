@@ -4,16 +4,16 @@ const primaryColor = Color(0xE4404B60);
 const colorPrimarySwatch = MaterialColor(
   0xE4404B60,
   <int, Color>{
-    50: Color(0xE4404B60),
-    100: Color(0xE4404B60),
-    200: Color(0xE4404B60),
-    300: Color(0xE4404B60),
-    400: Color(0xE4404B60),
-    500: Color(0xE4404B60),
-    600: Color(0xE4404B60),
-    700: Color(0xE4404B60),
-    800: Color(0xE4404B60),
-    900: Color(0xE4404B60),
+    50: primaryColor,
+    100: primaryColor,
+    200: primaryColor,
+    300: primaryColor,
+    400: primaryColor,
+    500: primaryColor,
+    600: primaryColor,
+    700: primaryColor,
+    800: primaryColor,
+    900: primaryColor,
   },
 );
 

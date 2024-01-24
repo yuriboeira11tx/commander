@@ -22,7 +22,7 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       title: 'Commander',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: colorPrimarySwatch),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: false,
         appBarTheme: const AppBarTheme(
           elevation: 0,

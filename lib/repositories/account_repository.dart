@@ -31,18 +31,15 @@ class AccountRepository {
         },
       );
 
-      if (response.statusCode == 200) {
-        return Result(message: "Conta criada com sucesso");
+      if (response.statusCode != 200) {
+        throw Exception(response.statusCode);
       }
     } on DioException catch (e) {
       log("[LOG] ${e.message}");
-      return Result(
-        message: e.response!.data["detail"],
-        exception: e,
-      );
+      throw Exception(e.message);
     }
 
-    return Result();
+    return Result(message: "Conta criada com sucesso");
   }
 
   Future<Result> loginAccount({

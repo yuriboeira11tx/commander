@@ -120,7 +120,6 @@ class LoginPageState extends State<LoginPage> {
         },
         child: const Icon(
           Icons.person_add,
-          color: colorTitle,
         ),
       ),
     );
