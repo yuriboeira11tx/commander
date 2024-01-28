@@ -49,7 +49,8 @@ class RegisterPageState extends State<RegisterPage> {
           dialogType: DialogType.success,
           animType: AnimType.rightSlide,
           title: 'Sucesso',
-          desc: '${value.message}',
+          desc:
+              "${value.message}\n Informe ao caixa para liberar o seu acesso no sistema!",
           btnOkOnPress: () {},
         ).show().whenComplete(() {
           Navigator.pop(context);
@@ -62,7 +63,8 @@ class RegisterPageState extends State<RegisterPage> {
             animType: AnimType.rightSlide,
             title: 'Registro',
             desc: 'Problema na criação da conta\n${onError.toString()}',
-            btnOkOnPress: () {},
+            btnCancelOnPress: () {},
+            btnCancelText: "OK",
           ).show();
         },
       );

@@ -59,29 +59,27 @@ class AccountRepository {
         },
       );
 
-      if (response.statusCode == 200) {
-        Auth newAuth = Auth();
-        newAuth.setFirstname(response.data["first_name"].toString());
-        newAuth.setLastname(response.data["last_name"].toString());
-        newAuth.setEmail(response.data["email"].toString());
-        newAuth.setAuthToken(response.data["auth_token"].toString());
-        newAuth.setRecoveryToken(response.data["recovery_token"].toString());
-        newAuth.setExpiration(DateTime.now()
-            .add(Duration(seconds: response.data["expiration"]))
-            .toString());
-
-        await GetIt.I<AccountStore>().login(newAuth);
-        return Result(message: "Login efetuado");
+      if (response.statusCode != 200) {
+        throw Exception(response.statusCode);
       }
+
+      Auth newAuth = Auth();
+      newAuth.setFirstname(response.data["first_name"].toString());
+      newAuth.setLastname(response.data["last_name"].toString());
+      newAuth.setEmail(response.data["email"].toString());
+      newAuth.setAuthToken(response.data["auth_token"].toString());
+      newAuth.setRecoveryToken(response.data["recovery_token"].toString());
+      newAuth.setExpiration(DateTime.now()
+          .add(Duration(seconds: response.data["expiration"]))
+          .toString());
+
+      await GetIt.I<AccountStore>().login(newAuth);
     } on DioException catch (e) {
       log("[LOG] ${e.message}");
-      return Result(
-        message: e.response!.data["detail"],
-        exception: e,
-      );
+      throw Exception(e.message);
     }
 
-    return Result();
+    return Result(message: "Logado com sucesso");
   }
 
   Future<Map<String, dynamic>> renewTokens(Auth currentAuth) async {

@@ -1,5 +1,5 @@
 // AUTH
-const String urlBase = "http://192.168.5.8";
+const String urlBase = "https://e58f-2804-14c-7de9-83d8-f844-4316-f82f-7764.ngrok-free.app";
 const String urlLogin = "$urlBase/accounts/api/login/";
 const String urlRegister = "$urlBase/accounts/api/register/";
 const String urlChangePassword = "$urlBase/accounts/api/change_password/";

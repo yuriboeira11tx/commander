@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:commander/auth/login/login_credentials.dart';
 import 'package:commander/pages/auth/register/register_page.dart';
 import 'package:commander/pages/home_page.dart';
@@ -18,23 +19,42 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final credential = LoginCredential();
   final accountRepository = AccountRepository();
+  bool isLoginLoading = false;
+
+  void loginLoading(bool newValue) {
+    if (!mounted) return;
+    setState(() {
+      isLoginLoading = newValue;
+    });
+  }
 
   Future<void> _login() async {
-    var response = await accountRepository.loginAccount(
+    loginLoading(true);
+
+    await accountRepository
+        .loginAccount(
       email: credential.email.value,
       pass: credential.password.value,
-    );
-
-    log(response.message ?? response.toString());
-
-    if (response.isSuccess) {
-      if (!mounted) return;
+    )
+        .then((value) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const HomePage()),
         (route) => false,
       );
-    }
+    }).catchError((onError) {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.rightSlide,
+        title: 'Login',
+        desc: 'Não foi possível fazer login\n${onError.toString()}',
+        btnCancelOnPress: () {},
+        btnCancelText: "OK",
+      ).show();
+    });
+
+    loginLoading(false);
   }
 
   @override
@@ -81,27 +101,36 @@ class LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                FilledButton(
-                  onPressed: () async {
-                    final validate = credential.validate();
+                Visibility(
+                  visible: isLoginLoading,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                Visibility(
+                  visible: !isLoginLoading,
+                  child: FilledButton(
+                    onPressed: () async {
+                      final validate = credential.validate();
 
-                    if (validate == null) {
-                      await _login();
-                    } else {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      final snackBar = SnackBar(
-                        content: Text(
-                          validate,
-                          style: styleTextSnackbar,
-                        ),
-                        backgroundColor: colorPrimarySwatch,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  child: const Text(
-                    "ENTRAR",
-                    style: styleTextButton,
+                      if (validate == null) {
+                        await _login();
+                      } else {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        final snackBar = SnackBar(
+                          content: Text(
+                            validate,
+                            style: styleTextSnackbar,
+                          ),
+                          backgroundColor: colorPrimarySwatch,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                    child: const Text(
+                      "ENTRAR",
+                      style: styleTextButton,
+                    ),
                   ),
                 ),
               ],
